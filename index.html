@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hakima — a study, a spell, a letter</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root{
+  --void:#0d0b14;
+  --void-deep:#07060b;
+  --charcoal:#1c1826;
+  --wine:#5c1f2e;
+  --wine-bright:#8a2f42;
+  --gold:#b08d57;
+  --parchment:#ece3cf;
+  --parchment-dim:#b9ac8e;
+  --lavender:#9089a8;
+  --line: rgba(236,227,207,0.14);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+}
+
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--parchment);
+  font-family:'EB Garamond', serif;
+  font-size:1.08rem;
+  line-height:1.7;
+}
+
+h1,h2,h3,.display{
+  font-family:'Cinzel', serif;
+  font-weight:500;
+  margin:0;
+  letter-spacing:0.01em;
+}
+
+.wrap{
+  max-width:1080px;
+  margin:0 auto;
+  padding:0 28px;
+}
+.prose{ max-width:60ch; }
+
+/* twinkle */
+@keyframes twinkle{
+  0%,100%{ opacity:0.25; }
+  50%{ opacity:1; }
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:92vh;
+  display:flex;
+  align-items:center;
+  position:relative;
+  background:
+    radial-gradient(ellipse 700px 400px at 50% 8%, rgba(90,31,46,0.28), transparent 65%),
+    var(--void-deep);
+  overflow:hidden;
+  padding:80px 0 60px 0;
+}
+.hero-stars{ position:absolute; inset:0; }
+.hero-stars circle{ animation: twinkle 4.5s ease-in-out infinite; }
+.hero-content{
+  position:relative;
+  text-align:center;
+  width:100%;
+}
+.hero-content .kicker{
+  font-family:'Cinzel', serif;
+  font-size:0.85rem;
+  letter-spacing:0.18em;
+  color:var(--gold);
+  margin-bottom:26px;
+}
+.hero-content h1{
+  font-size:clamp(3rem, 8vw, 5.4rem);
+  color:var(--parchment);
+}
+.hero-content p{
+  margin:26px auto 0 auto;
+  max-width:44ch;
+  font-style:italic;
+  color:var(--parchment-dim);
+  font-size:1.2rem;
+}
+
+/* ---------- INTRO ---------- */
+.intro{ padding:100px 0 40px 0; }
+.intro .prose{ font-size:1.2rem; color:var(--parchment); margin:0 auto; text-align:center; }
+.intro .prose em{ font-style:italic; color:var(--gold); }
+.divider{
+  width:1px; height:70px; background:var(--line);
+  margin:60px auto 0 auto;
+}
+
+/* ---------- CODEX ---------- */
+.codex{ padding:40px 0 70px 0; }
+.codex-heading{
+  text-align:center;
+  margin-bottom:64px;
+}
+.codex-heading h2{ font-size:clamp(1.8rem,3vw,2.4rem); }
+.codex-heading span{
+  display:block;
+  margin-top:10px;
+  font-style:italic;
+  color:var(--lavender);
+  font-size:1.05rem;
+}
+
+.entry{
+  display:grid;
+  grid-template-columns: 90px 130px 1fr;
+  gap:32px;
+  align-items:start;
+  padding:46px 0;
+  border-top:1px solid var(--line);
+}
+.entry:last-child{ border-bottom:1px solid var(--line); }
+.entry-numeral{
+  font-family:'Cinzel', serif;
+  color:var(--gold);
+  font-size:1.1rem;
+  padding-top:6px;
+}
+.entry-glyph{ display:flex; justify-content:center; }
+.entry-glyph svg{ width:100%; max-width:92px; height:auto; }
+.entry-text h3{
+  font-size:1.55rem;
+  color:var(--parchment);
+  margin-bottom:6px;
+}
+.entry-text .role{
+  display:block;
+  font-style:italic;
+  color:var(--lavender);
+  margin-bottom:14px;
+  font-size:1rem;
+}
+.entry-text p{
+  margin:0;
+  max-width:58ch;
+  color:var(--parchment-dim);
+}
+.entry-text p + p{ margin-top:14px; }
+
+/* ---------- LETTER ---------- */
+.letter-section{
+  background: var(--void-deep);
+  padding:110px 0 130px 0;
+  border-top:1px solid var(--line);
+}
+.letter-heading{ text-align:center; margin-bottom:50px; }
+.letter-heading h2{ font-size:clamp(1.9rem,3.4vw,2.5rem); }
+.letter-heading span{
+  display:block; margin-top:10px; font-style:italic; color:var(--gold);
+}
+
+.seal-wrap{ max-width:600px; margin:0 auto; }
+
+.sr-toggle{
+  position:absolute;
+  width:1px; height:1px;
+  padding:0; margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+.envelope{
+  border:1px solid var(--line);
+  background:var(--charcoal);
+  padding:40px 30px;
+  text-align:center;
+  cursor:pointer;
+  display:block;
+  transition:background 0.3s ease;
+}
+.envelope:hover{ background:#241f31; }
+.sr-toggle:focus-visible + .envelope{
+  outline:2px solid var(--gold);
+  outline-offset:4px;
+}
+
+.seal{
+  width:74px; height:74px;
+  margin:0 auto 22px auto;
+  border-radius:50%;
+  background: radial-gradient(circle at 35% 30%, var(--wine-bright), var(--wine) 65%, #3d1420 100%);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+  transition: transform 0.4s ease;
+}
+.envelope:hover .seal{ transform: scale(1.04); }
+.seal svg{ width:34px; height:34px; }
+
+.envelope .to{
+  font-family:'Cinzel', serif;
+  font-size:1.05rem;
+  color:var(--parchment);
+  letter-spacing:0.04em;
+}
+.envelope .instruction{
+  display:block;
+  margin-top:8px;
+  font-size:0.85rem;
+  font-style:italic;
+  color:var(--parchment-dim);
+}
+
+.letter-paper{
+  background:#f4ecd8;
+  color:#2b2620;
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:max-height 0.7s ease, opacity 0.5s ease, padding 0.7s ease;
+}
+.sr-toggle:checked ~ .letter-paper{
+  max-height:1600px;
+  opacity:1;
+  padding:48px 46px;
+}
+.letter-paper .body-text{ font-size:1.14rem; line-height:1.8; }
+.letter-paper .body-text p{ margin:0 0 20px 0; }
+.letter-paper .signature{
+  margin-top:8px;
+  font-style:italic;
+  color:var(--wine);
+}
+.placeholder{
+  color:var(--wine);
+  font-style:normal;
+  font-family:'EB Garamond', serif;
+  border-bottom:1px dashed var(--wine);
+}
+
+/* ---------- FOOTER ---------- */
+footer{
+  padding:50px 0;
+  text-align:center;
+  font-size:0.9rem;
+  color:var(--parchment-dim);
+  font-style:italic;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:720px){
+  .entry{
+    grid-template-columns: 60px 1fr;
+    grid-template-areas:
+      "num glyph"
+      "text text";
+  }
+  .entry-numeral{ grid-area:num; }
+  .entry-glyph{ grid-area:glyph; justify-content:flex-start; }
+  .entry-glyph svg{ max-width:60px; }
+  .entry-text{ grid-area:text; margin-top:18px; }
+  .letter-paper{ padding-left:0; padding-right:0; }
+  .sr-toggle:checked ~ .letter-paper{ padding:36px 22px; }
+}
+
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <svg class="hero-stars" viewBox="0 0 1080 700" preserveAspectRatio="xMidYMid slice">
+    <circle cx="120" cy="90" r="1.4" fill="#ece3cf" style="animation-delay:0s"/>
+    <circle cx="260" cy="180" r="1" fill="#ece3cf" style="animation-delay:0.6s"/>
+    <circle cx="400" cy="70" r="1.6" fill="#ece3cf" style="animation-delay:1.1s"/>
+    <circle cx="610" cy="140" r="1.1" fill="#ece3cf" style="animation-delay:1.7s"/>
+    <circle cx="760" cy="60" r="1.3" fill="#ece3cf" style="animation-delay:0.3s"/>
+    <circle cx="900" cy="160" r="1" fill="#ece3cf" style="animation-delay:2.1s"/>
+    <circle cx="980" cy="90" r="1.5" fill="#ece3cf" style="animation-delay:1.4s"/>
+    <circle cx="60" cy="260" r="1" fill="#ece3cf" style="animation-delay:0.9s"/>
+    <circle cx="330" cy="300" r="1.2" fill="#ece3cf" style="animation-delay:2.4s"/>
+    <circle cx="520" cy="240" r="1" fill="#ece3cf" style="animation-delay:1.9s"/>
+    <circle cx="850" cy="280" r="1.4" fill="#ece3cf" style="animation-delay:0.5s"/>
+    <circle cx="180" cy="420" r="1.1" fill="#ece3cf" style="animation-delay:1.2s"/>
+    <circle cx="700" cy="400" r="1" fill="#ece3cf" style="animation-delay:2.8s"/>
+    <circle cx="450" cy="470" r="1.3" fill="#ece3cf" style="animation-delay:0.8s"/>
+    <circle cx="960" cy="440" r="1" fill="#ece3cf" style="animation-delay:1.6s"/>
+    <!-- a small constellation, three stars joined -->
+    <g stroke="#b08d57" stroke-width="0.7" opacity="0.6">
+      <line x1="500" y1="560" x2="560" y2="520"/>
+      <line x1="560" y1="520" x2="640" y2="540"/>
+      <line x1="640" y1="540" x2="690" y2="500"/>
+    </g>
+    <circle cx="500" cy="560" r="2" fill="#ece3cf"/>
+    <circle cx="560" cy="520" r="2.2" fill="#ece3cf"/>
+    <circle cx="640" cy="540" r="2" fill="#ece3cf"/>
+    <circle cx="690" cy="500" r="2.4" fill="#ece3cf"/>
+    <!-- crescent moon -->
+    <path d="M 930 590 A 42 42 0 1 0 930 674 A 34 34 0 1 1 930 590 Z" fill="#ece3cf" opacity="0.9"/>
+  </svg>
+  <div class="wrap hero-content">
+    <div class="kicker">a study &nbsp;·&nbsp; a spell &nbsp;·&nbsp; a letter</div>
+    <h1>Hakima</h1>
+    <p>Everything I've noticed about you, written down before I forget how it felt to notice it.</p>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap">
+    <p class="prose">You don't analyse people so much as listen to them differently. You catch the way someone says a thing, not just what they said, and without making it obvious, you shift how you talk to them because of it — softer here, more direct there. I've felt myself being adjusted to, more than once, and only noticed after. You ask <em>why</em> until the question runs out of floor to stand on. You believe there's more order in the sky than most people bother to look for, and you still light a candle and mean it. Below is what all of that adds up to, from where I'm standing.</p>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<section class="codex">
+  <div class="wrap">
+    <div class="codex-heading">
+      <h2>Five entries</h2>
+      <span>from a small, unfinished study of you</span>
+    </div>
+
+    <!-- I. PSYCHOLOGY -->
+    <article class="entry">
+      <div class="entry-numeral">I.</div>
+      <div class="entry-glyph">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#b08d57" stroke-width="1.4">
+          <path d="M10 50 C 25 25, 75 25, 90 50 C 75 75, 25 75, 10 50 Z"/>
+          <circle cx="50" cy="50" r="14"/>
+          <path d="M50 40 C 54 43, 54 47, 50 50 C 46 53, 46 57, 50 60" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="entry-text">
+        <h3>The reader of minds</h3>
+        <span class="role">psychology</span>
+        <p>You watch people the way most of us only watch weather — patiently, and expecting it to eventually make sense. Half the time you've named what someone's feeling before they have. It should be unsettling. Somehow it just feels like being known.</p>
+      </div>
+    </article>
+
+    <!-- II. PHILOSOPHY -->
+    <article class="entry">
+      <div class="entry-numeral">II.</div>
+      <div class="entry-glyph">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#b08d57" stroke-width="1.4">
+          <path d="M50 50 m 0,-2 a 2,2 0 1,1 0,4 a 6,6 0 1,1 0,-12 a 12,12 0 1,1 0,24 a 20,20 0 1,1 0,-40"/>
+        </svg>
+      </div>
+      <div class="entry-text">
+        <h3>The asker of why</h3>
+        <span class="role">philosophy</span>
+        <p>Most people stop asking questions once the answer is inconvenient. You keep going, past the point where it would've been easier to just believe something. It's the least comfortable and most trustworthy thing about you.</p>
+      </div>
+    </article>
+
+    <!-- III. COSMOLOGY -->
+    <article class="entry">
+      <div class="entry-numeral">III.</div>
+      <div class="entry-glyph">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#b08d57" stroke-width="1.4">
+          <ellipse cx="50" cy="50" rx="40" ry="14" transform="rotate(-20 50 50)"/>
+          <ellipse cx="50" cy="50" rx="40" ry="14" transform="rotate(20 50 50)"/>
+          <circle cx="50" cy="50" r="8" fill="#b08d57" stroke="none"/>
+        </svg>
+      </div>
+      <div class="entry-text">
+        <h3>The vastness she's drawn to</h3>
+        <span class="role">cosmology</span>
+        <p>You're pulled toward the kind of scale that makes most people uncomfortable — distances so large they stop meaning anything practical. I think you like being reminded how small a single life is. I think it's why you're never careless with the ones that matter to you.</p>
+      </div>
+    </article>
+
+    <!-- IV. WITCHCRAFT -->
+    <article class="entry">
+      <div class="entry-numeral">IV.</div>
+      <div class="entry-glyph">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#b08d57" stroke-width="1.4">
+          <path d="M50 20 L50 60" stroke-linecap="round"/>
+          <path d="M42 30 C 42 24, 58 24, 58 30 C 58 36, 50 38, 50 44" stroke-width="1"/>
+          <path d="M50 8 C 54 14, 54 20, 50 24 C 46 20, 46 14, 50 8 Z" fill="#b08d57" stroke="none"/>
+          <line x1="30" y1="75" x2="70" y2="75"/>
+        </svg>
+      </div>
+      <div class="entry-text">
+        <h3>The quiet spellwork</h3>
+        <span class="role">witchery</span>
+        <p>You treat intention like it's a tool, not a decoration — a candle lit on purpose, a thing said out loud so it becomes more true. I don't know if it's ritual or just focus dressed up in better clothes. Either way, it works on me.</p>
+      </div>
+    </article>
+
+    <!-- V. DARK ROMANCE -->
+    <article class="entry">
+      <div class="entry-numeral">V.</div>
+      <div class="entry-glyph">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#b08d57" stroke-width="1.4">
+          <path d="M50 78 L50 40" stroke-linecap="round"/>
+          <path d="M50 55 L38 62 M50 62 L64 70" stroke-width="1"/>
+          <path d="M50 40 C 30 40, 30 15, 50 20 C 70 15, 70 40, 50 40 Z"/>
+        </svg>
+      </div>
+      <div class="entry-text">
+        <h3>The one who wants it to cost something</h3>
+        <span class="role">dark romance</span>
+        <p>You don't trust love that arrives too easily — you want it to mean something, to have weight, to survive being tested. I used to think that was intense. Now I think it's just honest about what love actually is when it's real.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="letter-section">
+  <div class="wrap">
+    <div class="letter-heading">
+      <h2>The letter</h2>
+      <span>break the seal</span>
+    </div>
+    <div class="seal-wrap">
+      <input type="checkbox" id="seal-toggle" class="sr-toggle">
+      <label class="envelope" for="seal-toggle">
+        <div class="seal">
+          <svg viewBox="0 0 40 40" fill="none" stroke="#ece3cf" stroke-width="1.3">
+            <circle cx="20" cy="20" r="13"/>
+            <path d="M20 10 L23 18 L31 18 L24.5 23 L27 31 L20 26 L13 31 L15.5 23 L9 18 L17 18 Z" stroke-width="0.9"/>
+          </svg>
+        </div>
+        <span class="to">Hakima</span>
+        <span class="instruction">click the seal to open</span>
+      </label>
+      <div class="letter-paper">
+        <div class="body-text">
+          <p>Hakima,</p>
+          <p>I miss you in a way that doesn't fit neatly into any of the theories you'd normally use to explain a feeling. You'd probably diagnose it in five minutes and be right about all of it — but knowing why doesn't make me miss you any less.</p>
+          <p>I keep doing the math on the distance between us, like it's a variable I can argue down if I stare at it long enough. It doesn't move. I wish it did. I wish it wasn't real at all — that this was the kind of distance you close by walking, not the kind you close by waiting.</p>
+          <p>I love how easy it is to talk to you — how comfortable I feel, how happy it makes me, every single time. We get along so much it almost doesn't make sense, and we have so much in common it feels less like luck and more like we were always going to find each other. I want you, and I know you want me too. That's not a small thing to me. That's the thing I keep coming back to.</p>
+          <p>I'm not going to pretend this is casual. I want the version of this where the distance stops being the whole story and becomes a chapter we get to finish. I think about marrying you — not as a line, not as something dramatic to say. I mean it plainly: I want a future with you somewhere in the middle of it.</p>
+          <p>I like you so much it's a little embarrassing. And under the liking, steadier than it, I love you.</p>
+          <p class="signature">— <span class="placeholder">ADAM❤️</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  written from far away, meant for closer
+</footer>
+
+</body>
+</html>
